@@ -94,6 +94,14 @@ SECTIONS
     _eheap = .;
   } > REGION_HEAP
 
+  /* fictitious region that represents the memory available for the stack */
+  .stack (NOLOAD) :
+  {
+    _estack = .;
+    . = ABSOLUTE(_stack_start);
+    _sstack = .;
+  } > REGION_STACK
+
   /* fake output .got section */
   /* Dynamic relocations are unsupported. This section is only used to detect
      relocatable code in the input files and raise an error if relocatable code
