@@ -44,7 +44,6 @@
 //! REGION_ALIAS("REGION_DATA", RAM);
 //! REGION_ALIAS("REGION_BSS", RAM);
 //! REGION_ALIAS("REGION_HEAP", RAM);
-//! REGION_ALIAS("REGION_STACK", RAM);
 //!
 //! $ edit src/main.rs && cat $_
 //! ```

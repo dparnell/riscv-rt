@@ -94,7 +94,6 @@ _abs_start:
     bgtu a2, t0, abort
 
     // Allocate stacks
-    // la sp, _stack_start
     lui t0, %hi(_hart_stack_size)
     add t0, t0, %lo(_hart_stack_size)
 #ifdef __riscv_mul
