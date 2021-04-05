@@ -1,5 +1,4 @@
 PROVIDE(_stext = ORIGIN(REGION_TEXT));
-PROVIDE(_stack_start = ORIGIN(REGION_STACK) + LENGTH(REGION_STACK));
 PROVIDE(_max_hart_id = 0);
 PROVIDE(_hart_stack_size = 2K);
 PROVIDE(_heap_size = 0);
@@ -95,14 +94,6 @@ SECTIONS
     _eheap = .;
   } > REGION_HEAP
 
-  /* fictitious region that represents the memory available for the stack */
-  .stack (NOLOAD) :
-  {
-    _estack = .;
-    . = ABSOLUTE(_stack_start);
-    _sstack = .;
-  } > REGION_STACK
-
   /* fake output .got section */
   /* Dynamic relocations are unsupported. This section is only used to detect
      relocatable code in the input files and raise an error if relocatable code
@@ -132,9 +123,6 @@ ERROR(riscv-rt): the start of the REGION_HEAP must be 4-byte aligned");
 ASSERT(ORIGIN(REGION_TEXT) % 4 == 0, "
 ERROR(riscv-rt): the start of the REGION_TEXT must be 4-byte aligned");
 
-ASSERT(ORIGIN(REGION_STACK) % 4 == 0, "
-ERROR(riscv-rt): the start of the REGION_STACK must be 4-byte aligned");
-
 ASSERT(_stext % 4 == 0, "
 ERROR(riscv-rt): `_stext` must be 4-byte aligned");
 
@@ -153,10 +141,6 @@ BUG(riscv-rt): start of .heap is not 4-byte aligned");
 ASSERT(_stext + SIZEOF(.text) < ORIGIN(REGION_TEXT) + LENGTH(REGION_TEXT), "
 ERROR(riscv-rt): The .text section must be placed inside the REGION_TEXT region.
 Set _stext to an address smaller than 'ORIGIN(REGION_TEXT) + LENGTH(REGION_TEXT)'");
-
-ASSERT(SIZEOF(.stack) > (_max_hart_id + 1) * _hart_stack_size, "
-ERROR(riscv-rt): .stack section is too small for allocating stacks for all the harts.
-Consider changing `_max_hart_id` or `_hart_stack_size`.");
 
 ASSERT(SIZEOF(.got) == 0, "
 .got section detected in the input files. Dynamic relocations are not

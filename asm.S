@@ -12,9 +12,10 @@
 /*
     Entry point of all programs (_start).
 
-    It initializes DWARF call frame information, the stack pointer, the
+    It initializes DWARF call frame information, the
     frame pointer (needed for closures to work in start_rust) and the global
     pointer. Then it calls _start_rust.
+    This code assumes the stack pointer is already set to a valid region of memory
 */
 
 .section .init, "ax"
@@ -93,7 +94,7 @@ _abs_start:
     bgtu a2, t0, abort
 
     // Allocate stacks
-    la sp, _stack_start
+    // la sp, _stack_start
     lui t0, %hi(_hart_stack_size)
     add t0, t0, %lo(_hart_stack_size)
 #ifdef __riscv_mul

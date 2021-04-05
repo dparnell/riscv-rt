@@ -8,6 +8,10 @@
 
 This project is developed and maintained by the [RISC-V team][team].
 
+It has been patched for an experimental environment that provides for hosted 
+execution of RISC-V code. The only difference is the `sp` register is provided by 
+the environment and the code may be placed at any location in memory.
+
 ## [Documentation](https://docs.rs/crate/riscv-rt)
 
 ## Minimum Supported Rust Version (MSRV)
